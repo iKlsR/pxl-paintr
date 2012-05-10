@@ -14,7 +14,7 @@
 
 .when u save an image, it saves it as a 256 * 256 image so as to preserve the retro look and make choice avatars
 
-![pxlee](https://github.com/iKlsR/pxl-paintr/blob/master/screenshots/pxlee.png)
+![pxlee](https://github.com/iKlsR/pxl-paintr/raw/master/screenshots/pxlee.png)
 
 <h1> technical </h1>
 
@@ -35,7 +35,7 @@ on [python](http://docs.python.org) too. knowing what tuples, slicing, functions
 .i have tested and used this but it is quite possible it breaks or it needs something else, i have tried to keep it
 ~as minimal as possible. please report any [issues to the issues page](https://github.com/iKlsR/pxl-paintr/issues) or fork your own branch and play with the code
 
-![default](https://github.com/iKlsR/pxl-paintr/blob/master/screenshots/default.PNG "default")
+![default](https://github.com/iKlsR/pxl-paintr/raw/master/screenshots/default.PNG "default")
 
 <h1> installation </h1>
 
@@ -45,7 +45,7 @@ what?
 
 .compiled and tested on win7 x64 with x64 python2.6 and [x64 pygame 1.9.2](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame)
 
-![pxled](https://github.com/iKlsR/pxl-paintr/blob/master/screenshots/pxled.PNG "pxled")
+![pxled](https://github.com/iKlsR/pxl-paintr/raw/master/screenshots/pxled.PNG "pxled")
 
 how to use
 .open a prompt or terminal, on Windows make sure python is in your path, type python to check, if it returns:
@@ -61,7 +61,7 @@ operable program or batch file.
 
 .run the program
 
-![gridified](https://github.com/iKlsR/pxl-paintr/blob/master/screenshots/grid_on.PNG "gridified")
+![gridified](https://github.com/iKlsR/pxl-paintr/raw/master/screenshots/grid_on.PNG "gridified")
 
 <h1> keys: </h1>
 
@@ -75,7 +75,7 @@ f -  to clear canvas completely
 esc - to quit
 w - to save
 
-![NYAN](https://github.com/iKlsR/pxl-paintr/blob/master/screenshots/nyan.PNG "NYAN")
+![NYAN](https://github.com/iKlsR/pxl-paintr/raw/master/screenshots/nyan.PNG "NYAN")
 
 </h1> todo </h1>
 
@@ -84,7 +84,7 @@ w - to save
 
 .scale the grid in realtime with limits of course still constraining preview to its same size
 
-.read file, possibly a custom writeto format or maybe not. -?-
+.read file, possibly a custom writeto format or maybe not. -ω-
 
 .dialogs?
 
@@ -102,7 +102,7 @@ w - to save
 
 .convert to portable executable for windows users with the lovely py2exe
 
-![crap](https://github.com/iKlsR/pxl-paintr/blob/master/screenshots/prev_on.PNG "i did not draw this ;)")
+![crap](https://github.com/iKlsR/pxl-paintr/raw/master/screenshots/prev_on.PNG "i did not draw this ;)")
 
 <h1> misc </h1>
 .i love creating pixel art (the 90's is so nostalgic) and my friends do too, they love pxl paintr, 
@@ -110,6 +110,6 @@ if you somehow use this program to do any work or art, i would be [delighted to 
 
 .if on irc (freenode.net) and need any help, the #python and #pygame channel are always up (don't ask to ask.. just ask) and i lurk in a little channel called #blendernerd
 
-.thanks to Cheery for a few hints, project inspiration and a solid project skeletion
+.thanks to [Cheery](http://github.com/cheery) for a few hints, project inspiration and a solid project skeletion
 
 

@@ -1,6 +1,6 @@
 <h1> pxl paintr </h1> 
 
-.it is small pygame program for creating 2d [pixel art](http://en.wikipedia.org/wiki/Pixel_art)
+.it is small python program for creating 2d [pixel art](http://en.wikipedia.org/wiki/Pixel_art)
 
 .it is obviously NOT a fully fledged graphics program so don't expect much
 
@@ -14,7 +14,7 @@
 
 .when u save an image, it saves it as a 256 * 256 image so as to preserve the retro look and make choice avatars
 
-![pxlee](https://github.com/iKlsR/pxl-paintr/blob/master/screenshots/pxlee.png "pxlee")
+![pxlee](https://github.com/iKlsR/pxl-paintr/blob/master/screenshots/pxlee.png)
 
 <h1> technical </h1>
 
@@ -41,7 +41,7 @@ on [python](http://docs.python.org) too. knowing what tuples, slicing, functions
 
 what?
 
-.if u somehow don't know by now, pixel painter uses python and pygame as its graphics engine and event handler
+.if u somehow don't know by now, pixel painter uses the python programming language and pygame the graphics library as its graphics engine and event handler
 
 .compiled and tested on win7 x64 with x64 python2.6 and [x64 pygame 1.9.2](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame)
 

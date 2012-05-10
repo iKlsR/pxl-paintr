@@ -1,6 +1,6 @@
 <h1> pxl paintr </h1> 
 
-.it is small python program for creating 2d [pixel art](http://en.wikipedia.org/wiki/Pixel_art)
+.it is small program for creating 2d [pixel art](http://en.wikipedia.org/wiki/Pixel_art)
 
 .it is obviously NOT a fully fledged graphics program so don't expect much
 
@@ -66,13 +66,21 @@ operable program or batch file.
 <h1> keys: </h1>
 
 mouse1(left click) - click to add points, hold to draw
+
 mouse2(middle clikc) - N/A
+
 mouse3(right click) - click points to delete, hold to delete
+
 h - to toggle the assist grid on/off
+
 p - to toggle the small preview (perspective helps)
+
 f -  to clear canvas completely
+
 1 - 9: to select colors as they are shown at the bottom in the palette
+
 esc - to quit
+
 w - to save
 
 ![NYAN](https://github.com/iKlsR/pxl-paintr/raw/master/screenshots/nyan.PNG "NYAN")
@@ -106,9 +114,9 @@ w - to save
 
 <h1> misc </h1>
 .i love creating pixel art (the 90's is so nostalgic) and my friends do too, they love pxl paintr, 
-if you somehow use this program to do any work or art, i would be [delighted to hear](http://twitter.com/iKlsR)
+if you somehow use this program to do any work or art, i would be delighted to hear.
 
-.if on irc (freenode.net) and need any help, the #python and #pygame channel are always up (don't ask to ask.. just ask) and i lurk in a little channel called #blendernerd
+.if on irc (freenode.net) and need any help, the #python and #pygame channel are always up (don't ask to ask.. just ask)
 
 .thanks to [Cheery](http://github.com/cheery) for a few hints, project inspiration and a solid project skeletion
 

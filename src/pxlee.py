@@ -1,6 +1,7 @@
 import pygame, sys
 import os
 from optparse import OptionParser
+from time import time
 
 parser = OptionParser(
     usage = "usage: %prog [options] file"
@@ -58,6 +59,41 @@ palette = {
 color = palette['1'] #0x00, 0x00, 0x00, 0xff
 (grid_stat, selected_col, mini_prev) = ('on', color, 'off')
 
+
+def from_hsla(h,s,l,a):
+    color = pygame.Color(0)
+    color.hsla = h,s,l,a
+    return color
+
+def draw_marker(surface, (x,y)):
+    pygame.draw.rect(surface, (255,255,255,255), (x-3,y-3,7,7), 1)
+    pygame.draw.rect(surface, (0,0,0,255), (x-2,y-2,5,5), 1)
+
+import math
+def create_color_circle(sel_hue, sel_sat, sel_light, sel_alpha):
+    box = pygame.Surface((200, 200), pygame.SRCALPHA)
+    pixels = pygame.PixelArray(box)
+    for x in range(200):
+        for y in range(200):
+            dx = (x - 100)
+            dy = (y - 100)
+            if 73*73 < (dx*dx + dy*dy) < 90*90:
+                hue = math.degrees(math.atan2(dy, dx)) + 180
+                pixels[x,y] = from_hsla(hue, 100, 50, 100.0)
+            if 50 <= x < 150 and 50 <= y < 150:
+                sat = (x-50)/99.0 * 100.0
+                light = (y-50)/99.0 * 100.0
+                pixels[x,y] = from_hsla(sel_hue, sat, light, 100.0)
+            if 194 <= y < 197 and 50 <= x < 150:
+                pixels[x,y] = from_hsla(sel_hue, sel_sat, sel_light, (x-50)/199.0*100.0)
+
+    pygame.draw.rect(box, (64,64,64,255), (49, 193, 102, 5), 1)
+    pygame.draw.rect(box, (64,64,64,255), (49, 49, 102, 102), 1)
+    draw_marker(box, (100 - 81,100)) # circle slider
+    draw_marker(box, (149,149)) # box slider
+    draw_marker(box, (149,195)) # alpha slider
+    return box
+
 def plot((x, y)):
     x = int(x / scale)
     y = int(y / scale)
@@ -109,6 +145,9 @@ def animation_frame(screen):
         
         if grid_stat == 'on':
             grid(screen, ((canvasW * scale), (canvasY * scale)))
+
+        colorbox = create_color_circle((time()*360.0*20)%360, 100, 50, 100.0)
+        screen.blit(colorbox, (600, 250))
 
 def shortcut(_unicode):
     global grid_color, color, grid_stat, selected_col, mini_prev, filename_final

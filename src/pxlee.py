@@ -3,6 +3,8 @@ import os
 from optparse import OptionParser
 from time import time
 
+import ui
+
 parser = OptionParser(
     usage = "usage: %prog [options] file"
 )
@@ -59,85 +61,11 @@ palette = {
 color = palette['1'] #0x00, 0x00, 0x00, 0xff
 (grid_stat, selected_col, mini_prev) = ('on', color, 'off')
 
-
-def from_hsla(h,s,l,a):
-    color = pygame.Color(0)
-    color.hsla = h,s,l,a
-    return color
-
-def to_hsla(r,g,b,a=255):
-    return pygame.Color(r,g,b,a).hsla
-
-def draw_marker(surface, (x,y)):
-    pygame.draw.rect(surface, (255,255,255,255), (x-3,y-3,7,7), 1)
-    pygame.draw.rect(surface, (0,0,0,255), (x-2,y-2,5,5), 1)
-
-import math
-def create_color_circle(sel_hue, sel_sat, sel_light, sel_alpha):
-    box = pygame.Surface((200, 200), pygame.SRCALPHA)
-    pixels = pygame.PixelArray(box)
-    radius_min2 = 73*73
-    radius_max2 = 90*90
-    for x in range(200):
-        for y in range(200):
-            dx = (x - 100)
-            dy = (y - 100)
-            if 50 <= x < 150 and 50 <= y < 150:
-                sat = (x-50)/99.0 * 100.0
-                light = (y-50)/99.0 * 100.0
-                pixels[x,y] = from_hsla(sel_hue, sat, light, 100.0)
-            elif 194 <= y < 197 and 50 <= x < 150:
-                pixels[x,y] = from_hsla(sel_hue, sel_sat, sel_light, (x-50)/199.0*100.0)
-            elif radius_min2 < (dx*dx + dy*dy) < radius_max2:
-                hue = math.degrees(math.atan2(dy, dx)) + 180
-                pixels[x,y] = from_hsla(hue, 100, 50, 100.0)
-    pygame.draw.rect(box, (64,64,64,255), (49, 193, 102, 5), 1)
-    pygame.draw.rect(box, (64,64,64,255), (49, 49, 102, 102), 1)
-    a = math.radians(sel_hue)
-    draw_marker(box, (100 - math.cos(a) * 81,100 - math.sin(a) * 81)) # circle slider
-    draw_marker(box, (50 + sel_sat*0.99,50 + sel_light*0.99)) # box slider
-    draw_marker(box, (50 + sel_alpha*0.99,195)) # alpha slider
-    return box
-
-class ColorControl(object):
-    def __init__(self, pos, hsla):
-        self.pos = pos
-        self.hsla = hsla
-        self.box = create_color_circle(*hsla)
-        self.dirty = False
-
-    def frame(self, screen):
-        if self.dirty:
-            self.box = create_color_circle(*self.hsla)
-            self.dirty = False
-        screen.blit(self.box, self.pos)
-
-    def inside(self, (x, y)):
-        dx = x - self.pos[0]
-        dy = y - self.pos[1]
-        return 0 <= dx < 200 and 0 <= dy < 200
-
-    def inside_aslider(self, (dx, dy)):
-        return 194 <= dy and 50 <= dx < 150
-
-    def inside_tslider(self, (dx, dy)):
-        return 50 <= dy < 150 and 50 <= dx < 150
-
-    def mousedown(self, (x, y)):
-        dx = x - self.pos[0]
-        dy = y - self.pos[1]
-        hue,sat,light,alpha = self.hsla
-        if self.inside_aslider((dx, dy)):
-            alpha = (dx - 50) / 99.0 * 100.0
-        elif self.inside_tslider((dx, dy)):
-            sat = (dx-50)/99.0 * 100.0
-            light = (dy-50)/99.0 * 100.0
-        elif dy < 193:
-            hue = math.degrees(math.atan2(dy-100, dx-100)) + 180
-        self.dirty = True
-        self.hsla = hue,sat,light,alpha
-
-colorctl = ColorControl((894-200, 0), to_hsla(*white))
+controls = [
+    ui.HueSlider(ui.Rect(600,  200, 200, 200), (175, 1.0, 0.5, 1.0)),
+    ui.ToneSlider(ui.Rect(650, 250, 100, 100), (175, 1.0, 0.5, 1.0)),
+    ui.AlphaSlider(ui.Rect(600, 415, 200, 11), (255, 1.0, 0.5, 1.0)),
+]
 
 def plot((x, y)):
     x = int(x / scale)
@@ -191,7 +119,8 @@ def animation_frame(screen):
         if grid_stat == 'on':
             grid(screen, ((canvasW * scale), (canvasY * scale)))
 
-        colorctl.frame(screen)
+        for control in controls:
+            control.animation_frame(screen)
 
 def shortcut(_unicode):
     global grid_color, color, grid_stat, selected_col, mini_prev, filename_final
@@ -219,17 +148,29 @@ def shortcut(_unicode):
         color = palette[_unicode]
         selected_col = color
 
+
+mousemode = None
+
 def dispatch(event):
+    global mousemode
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        match = None
+        for control in controls:
+            if control.area.hit(event.pos):
+                match = control
+        if match is not None:
+            mousemode = match.mousedown(event.pos)
+            return True
     if event.type == pygame.QUIT:
         sys.exit()
     elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
         sys.exit()
     elif event.type == pygame.KEYDOWN:
         shortcut(event.unicode)
-    elif event.type == pygame.MOUSEBUTTONDOWN and colorctl.inside(event.pos):
-        colorctl.mousedown(event.pos)
-    elif event.type == pygame.MOUSEMOTION and colorctl.inside(event.pos) and (1 in event.buttons):
-        colorctl.mousedown(event.pos)
+    elif event.type == pygame.MOUSEMOTION and mousemode is not None:
+        mousemode.mousedrag(event.pos)
+    elif event.type == pygame.MOUSEBUTTONUP:
+        mousemode = None
     elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
         plot(event.pos)
     elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:

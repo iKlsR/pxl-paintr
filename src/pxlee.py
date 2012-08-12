@@ -67,6 +67,17 @@ controls = [
     ui.AlphaSlider(ui.Rect(600, 415, 200, 11), (255, 1.0, 0.5, 1.0)),
 ]
 
+def color_change(hsla):
+    for control in controls:
+        control.hsla = hsla
+        if not isinstance(control, ui.HueSlider):
+            control.cache = None
+
+for control in controls:
+    control.trigger = color_change
+
+
+
 def plot((x, y)):
     x = int(x / scale)
     y = int(y / scale)

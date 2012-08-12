@@ -24,6 +24,7 @@ class Rect(object):
 
 class AlphaSlider(object):
     cache = None
+    trigger = None
     def __init__(self, area, hsla):
         self.area = area
         self.hsla = hsla
@@ -47,6 +48,8 @@ class AlphaSlider(object):
         alpha = float(x - self.area.x) / self.area.width
         alpha = min(1.0, max(0.0, alpha))
         self.hsla = hue, sat, light, alpha
+        if self.trigger:
+            self.trigger(self.hsla)
 
     def mousedown(self, position):
         self.set_value(position)
@@ -57,6 +60,7 @@ class AlphaSlider(object):
 
 class ToneSlider(object):
     cache = None
+    trigger = None
     def __init__(self, area, hsla):
         self.area = area
         self.hsla = hsla
@@ -84,6 +88,8 @@ class ToneSlider(object):
         light = float(y - self.area.y) / self.area.height
         light = min(1.0, max(0.0, light))
         self.hsla = hue, sat, light, alpha
+        if self.trigger:
+            self.trigger(self.hsla)
 
     def mousedown(self, position):
         self.set_value(position)
@@ -94,6 +100,7 @@ class ToneSlider(object):
 
 class HueSlider(object):
     cache = None
+    trigger = None
     def __init__(self, area, hsla):
         self.area = area
         self.hsla = hsla
@@ -127,6 +134,8 @@ class HueSlider(object):
         _, sat, light, alpha = self.hsla
         hue = math.degrees(math.atan2(dy, dx)) + 180
         self.hsla = hue, sat, light, alpha
+        if self.trigger:
+            self.trigger(self.hsla)
 
     def mousedown(self, position):
         self.set_value(position)

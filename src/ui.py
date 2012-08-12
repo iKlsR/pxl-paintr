@@ -36,7 +36,7 @@ class AlphaSlider(object):
             hue, sat, light, _ = self.hsla
             for i in range(self.area.width):
                 alpha = i / float(self.area.width-1)
-                data[i,:] = from_hsla(hue, sat*100, light*100, alpha*100)
+                data[i,:] = from_hsla(hue, sat, light, alpha*100)
             del data
         hue, sat, light, alpha = self.hsla
         screen.blit(self.cache, tuple(self.area))
@@ -47,7 +47,7 @@ class AlphaSlider(object):
         hue, sat, light, _ = self.hsla
         alpha = float(x - self.area.x) / self.area.width
         alpha = min(1.0, max(0.0, alpha))
-        self.hsla = hue, sat, light, alpha
+        self.hsla = hue, sat, light, alpha*100
         if self.trigger:
             self.trigger(self.hsla)
 
@@ -74,7 +74,7 @@ class ToneSlider(object):
                 sat = i / float(self.area.width-1)
                 for j in range(self.area.height):
                     light = j / float(self.area.height-1)
-                    data[i,j] = from_hsla(hue, sat*100, light*100, alpha*100)
+                    data[i,j] = from_hsla(hue, sat*100, light*100, alpha)
             del data
         hue, sat, light, alpha = self.hsla
         screen.blit(self.cache, tuple(self.area))
@@ -87,7 +87,7 @@ class ToneSlider(object):
         sat = min(1.0, max(0.0, sat))
         light = float(y - self.area.y) / self.area.height
         light = min(1.0, max(0.0, light))
-        self.hsla = hue, sat, light, alpha
+        self.hsla = hue, sat*100, light*100, alpha
         if self.trigger:
             self.trigger(self.hsla)
 

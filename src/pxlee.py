@@ -58,20 +58,25 @@ palette = {
     '9': (0x80, 0x80, 0x80, 0xff),
 }
 
+palette_key = '1'
 color = palette['1'] #0x00, 0x00, 0x00, 0xff
 (grid_stat, selected_col, mini_prev) = ('on', color, 'off')
 
 controls = [
-    ui.HueSlider(ui.Rect(600,  200, 200, 200), (175, 1.0, 0.5, 1.0)),
-    ui.ToneSlider(ui.Rect(650, 250, 100, 100), (175, 1.0, 0.5, 1.0)),
-    ui.AlphaSlider(ui.Rect(600, 415, 200, 11), (255, 1.0, 0.5, 1.0)),
+    ui.HueSlider(ui.Rect(600,  200, 200, 200), ui.to_hsla(*color)), #(255, 1.0, 0.5, 1.0)),
+    ui.ToneSlider(ui.Rect(650, 250, 100, 100), ui.to_hsla(*color)), #(255, 1.0, 0.5, 1.0)),
+    ui.AlphaSlider(ui.Rect(600, 415, 200, 11), ui.to_hsla(*color)), #(255, 1.0, 0.5, 1.0)),
 ]
 
-def color_change(hsla):
+def color_change(hsla, feedback=True):
+    global color
     for control in controls:
         control.hsla = hsla
         if not isinstance(control, ui.HueSlider):
             control.cache = None
+    color = ui.from_hsla(*hsla)
+    if feedback:
+        palette[palette_key] = color
 
 for control in controls:
     control.trigger = color_change
@@ -126,6 +131,10 @@ def animation_frame(screen):
             screen.fill(keycolor, area)
             complement = 255 - keycolor[0], 255 - keycolor[1], 255 - keycolor[2], 0xFF
             screen.blit(font.render(key, True, complement), area)
+            if palette_key == key:
+                x,y,w,h = area
+                x,y = x+w/2, y+h/2
+                screen.fill((0,0,0), (x-2,y-2,4,4))
         
         if grid_stat == 'on':
             grid(screen, ((canvasW * scale), (canvasY * scale)))
@@ -134,7 +143,7 @@ def animation_frame(screen):
             control.animation_frame(screen)
 
 def shortcut(_unicode):
-    global grid_color, color, grid_stat, selected_col, mini_prev, filename_final
+    global grid_color, color, grid_stat, selected_col, mini_prev, filename_final, palette_key
 
     if _unicode == 'h':
         if grid_stat == 'off':
@@ -156,7 +165,11 @@ def shortcut(_unicode):
         pygame.image.save(mini_view, filename_exten + '.png')
         filename_final = filename_exten + '.png'
     elif _unicode in palette:
-        color = palette[_unicode]
+        palette_key = _unicode
+        print palette[_unicode]
+        hsla = ui.to_hsla(*palette[_unicode])
+        print hsla
+        color_change(hsla, feedback=False)
         selected_col = color
 
 

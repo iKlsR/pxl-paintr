@@ -217,11 +217,14 @@ while 1:
     for event in pygame.event.get():
         dispatch(event)
     
-	animation_frame(screen)
+    animation_frame(screen)
 	
-	#temporary.. project really needs to be cleaned up.. you hear that.. Cheery :) 
-	mousexx, mouseyy = pygame.mouse.get_pos()
-	pygame.gfxdraw.box(screen, (mousexx, mouseyy, 5, 5), (0xFF, 0xFF, 0xFF, 200))
+    #temporary.. project really needs to be cleaned up.. you hear that.. Cheery :) 
+    mousexx, mouseyy = pygame.mouse.get_pos()
+
+    screen.fill((0xFF,0xFF,0xFF), (mousexx, mouseyy-2, 1, 5))
+    screen.fill((0xFF,0xFF,0xFF), (mousexx-2, mouseyy, 5, 1))
+#    pygame.gfxdraw.box(screen, (mousexx, mouseyy, 5, 5), (0xFF, 0xFF, 0xFF, 200))
 	
     pygame.display.flip()
     

@@ -3,6 +3,8 @@ import os
 from optparse import OptionParser
 from time import time
 
+from pygame import gfxdraw
+
 import ui
 
 parser = OptionParser(
@@ -172,7 +174,6 @@ def shortcut(_unicode):
         color_change(hsla, feedback=False)
         selected_col = color
 
-
 mousemode = None
 
 def dispatch(event):
@@ -208,12 +209,20 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.display.init()
 screen = pygame.display.set_mode((894, 600))
 
+pygame.mouse.set_visible(False)
+
 while 1:
     pygame.display.set_caption('pxl paintr - %s | grid: %s | color: %s | preview: %s' % \
                               (os.getcwd() + '\\' + filename_final, grid_stat, selected_col, mini_prev))
     for event in pygame.event.get():
         dispatch(event)
-    animation_frame(screen)
+    
+	animation_frame(screen)
+	
+	#temporary.. project really needs to be cleaned up.. you hear that.. Cheery :) 
+	mousexx, mouseyy = pygame.mouse.get_pos()
+	pygame.gfxdraw.box(screen, (mousexx, mouseyy, 5, 5), (0xFF, 0xFF, 0xFF, 200))
+	
     pygame.display.flip()
     
 pygame.quit()   #ide friendly

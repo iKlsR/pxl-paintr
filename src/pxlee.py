@@ -14,7 +14,7 @@ parser = OptionParser(
 (options, args) = parser.parse_args()
 
 if len(args) != 1:
-    print 'did you read the readme? add the filename..'
+    print 'Did you check the readme? Add the filename..'
     sys.exit(1)
 
 filename = args[0]
@@ -34,7 +34,6 @@ grey_a = (0x00, 0x00, 0x00, 0x00)
 grid_color = 0x41, 0x41, 0x41
 
 scale = 8       #pixel size on scaled canvas
-brush_size = 8  #can be synonymous with pixel size if grid is on !!NOT UTILIZED AS YET
 
 canvas_w = 64
 canvas_h = 64
@@ -72,18 +71,18 @@ controls = [
 
 def color_change(hsla, feedback=True):
     global color
+
     for control in controls:
         control.hsla = hsla
         if not isinstance(control, ui.HueSlider):
             control.cache = None
+
     color = ui.from_hsla(*hsla)
     if feedback:
         palette[palette_key] = color
 
 for control in controls:
     control.trigger = color_change
-
-
 
 def plot((x, y)):
     x = int(x / scale)
@@ -109,6 +108,7 @@ def animation_frame(screen):
         screen.fill(background_color)
         (w, y) = screen.get_size()
         canvasW, canvasY = canvas.get_size()
+
         global mini_prev, mini_view
         
         #draws before the canvas so the lines aren't etched into the graphics
@@ -120,13 +120,13 @@ def animation_frame(screen):
         screen.blit(view, (0, 0))
         
         if mini_prev == 'off':
-            #do nothing
             mini_prev = 'off'
         else:
             mini_prev = 'on'
             screen.blit(mini_view, (w - (canvas_w * 4), 0))
                 
         screen.fill(black, (0, y - 28, w, 28))
+
         for index, key in enumerate('1234567890'):
             keycolor = palette[key]
             area = (index * 45 + 2, screen.get_height() - 28, 40, 36)
@@ -134,9 +134,9 @@ def animation_frame(screen):
             complement = 255 - keycolor[0], 255 - keycolor[1], 255 - keycolor[2], 0xFF
             screen.blit(font.render(key, True, complement), area)
             if palette_key == key:
-                x,y,w,h = area
-                x,y = x+w/2, y+h/2
-                screen.fill((0,0,0), (x-2,y-2,4,4))
+                x, y, w, h = area
+                x, y = x + w / 2, y + h/ 2
+                screen.fill((0, 0, 0), (x - 2,y - 2, 4, 4))
         
         if grid_stat == 'on':
             grid(screen, ((canvasW * scale), (canvasY * scale)))
@@ -178,6 +178,7 @@ mousemode = None
 
 def dispatch(event):
     global mousemode
+
     if event.type == pygame.MOUSEBUTTONDOWN:
         match = None
         for control in controls:
@@ -186,6 +187,7 @@ def dispatch(event):
         if match is not None:
             mousemode = match.mousedown(event.pos)
             return True
+
     if event.type == pygame.QUIT:
         sys.exit()
     elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -200,9 +202,9 @@ def dispatch(event):
         plot(event.pos)
     elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
         del_plot(event.pos)
-    elif event.type == pygame.MOUSEMOTION and event.buttons == (1, 0, 0):   #( | )
+    elif event.type == pygame.MOUSEMOTION and event.buttons == (1, 0, 0):   #([]| )
         plot(event.pos)
-    elif event.type == pygame.MOUSEMOTION and event.buttons == (0, 0, 1):   #( | )
+    elif event.type == pygame.MOUSEMOTION and event.buttons == (0, 0, 1):   #( |[])
         del_plot(event.pos)
   
 os.environ['SDL_VIDEO_CENTERED'] = '1'      
@@ -214,18 +216,18 @@ pygame.mouse.set_visible(False)
 while 1:
     pygame.display.set_caption('pxl paintr - %s | grid: %s | color: %s | preview: %s' % \
                               (os.getcwd() + '\\' + filename_final, grid_stat, selected_col, mini_prev))
+
     for event in pygame.event.get():
         dispatch(event)
     
     animation_frame(screen)
 	
-    #temporary.. project really needs to be cleaned up.. you hear that.. Cheery :) 
-    mousexx, mouseyy = pygame.mouse.get_pos()
+    mx, my = pygame.mouse.get_pos()
 
-    screen.fill((0xFF,0xFF,0xFF), (mousexx, mouseyy-2, 1, 5))
-    screen.fill((0xFF,0xFF,0xFF), (mousexx-2, mouseyy, 5, 1))
-#    pygame.gfxdraw.box(screen, (mousexx, mouseyy, 5, 5), (0xFF, 0xFF, 0xFF, 200))
+    screen.fill((0xFF,0xFF,0xFF), (mx, my - 2, 1, 5))
+    screen.fill((0xFF,0xFF,0xFF), (mx - 2, my, 5, 1))
 	
     pygame.display.flip()
-    
-pygame.quit()   #ide friendly
+
+#ide friendly
+pygame.quit()   

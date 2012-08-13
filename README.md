@@ -28,6 +28,6 @@ S - save to current directory
 
 .the interactive color picker on the right changes the color in the active selected palette!
 
-.the status of the scene can be scene in the window header and updates in realtime.
+.the status of the current scene can be seen in the window header and updates in realtime.
 
 ###originally a fork of [Cheery's pygame tutorial](https://github.com/cheery/pygame_tutorial).

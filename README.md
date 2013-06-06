@@ -1,7 +1,7 @@
 pxl-paintr
 ==========
 
-A simple pixel art app. It uses [pygame](https://pygame.org). Here is an ![image](img/ui.png)
+A simple pixel art app. It uses [pygame](https://pygame.org). Here is an [image](img/ui.png).
 
 # Keys
 

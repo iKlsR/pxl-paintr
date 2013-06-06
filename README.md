@@ -1,33 +1,42 @@
-#Keys:
+pxl-paintr
+==========
 
-LMB(left click) - click to add points, hold to draw continuously
+A simple pixel art app. It uses [pygame](https://pygame.org).
 
-MMB(middle click) - N/A
+-----
 
-RMB(right click) - click points to delete, hold to continuously delete
+# Keys
 
-H - to toggle the assist grid on/off
+**`LMB`** *(Left click)* - Click to add *pixels*, hold to draw continuously
 
-P - to toggle the small preview (actual size when saved) (perspective helps)
+**`MMB`** *(Middle click)* - *n/a*
 
-F - to completely clear canvas
+**`RMB`** *(Right click)* - Click points to delete, hold to delete continuously
 
-1 -> 9 - to select colors as they are shown at the bottom in the fixed palette
+**`H`** - Toggle the assist grid *on/off*
 
-ESC - to quit
+**`P`** - Toggle the small preview *(actual size when saved)* (perspective helps sometimes)
 
-S - save to current directory
+**`F`** - Completely clear the canvas
 
-#Notes
+**`1 - 9`** - To select colors as they are shown at the bottom in the fixed palette
 
-.to create a new file start the main program `pxlee.py` with the name of the file as an argument.. ie. `pxlee.py new_sprite`.
+**`ESC`** - Quit
 
-.you do not need to add an extension, pxl-paintr automatically saves your image as a 256 * 256 `.png` with alpha by default.
+**`S`** - Save to current directory
 
-.be sure to save your scene as it will not prompt you to save.
+----
 
-.the interactive color picker on the right changes the color in the active selected palette!
+Notes
+====
+1. To create a new file start the main program `pxlee.py` with the name of the file as an argument. Example. `python pxlee.py new_sprite`.
 
-.the status of the current scene can be seen in the window header and updates in realtime.
+2. You do not need to add an extension when starting it, it will automatically save your image as a `256 * 256` png with alpha by default.
 
-###originally a fork of [Cheery's pygame tutorial](https://github.com/cheery/pygame_tutorial).
+3. The current slot in the fixed palette will change when the color wheel is modified.
+
+4. Be sure to save your scene as it will not prompt you to save.
+
+5. The interactive color picker on the right changes the color in the active selected palette!
+
+6. The status of the current scene can be seen in the window header and updates in real-time.
